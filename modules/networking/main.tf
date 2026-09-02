@@ -4,17 +4,17 @@ resource "azurerm_resource_group" "main" {
 }
 
 resource "azurerm_virtual_network" "main" {
-  name                = "${var.resource_name}-${var.environment}-vnet"
+  name                = "vnet-${var.environment}-${var.resource_name}"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
-  address_space       = ["10.0.0.0/16"]
-  depends_on          = [azurerm_resource_group.main]
+  address_space       = [var.address_space]
+
 }
 
 resource "azurerm_subnet" "main" {
-  depends_on           = [azurerm_virtual_network.main]
-  name                 = "${var.resource_name}-${var.environment}-subnet"
+  for_each             = var.subnet
+  name                 = "snet-${var.environment}-${each.key}"
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
-  address_prefixes     = azurerm_virtual_network.main.address_space
+  address_prefixes     = each.value.cidr
 }

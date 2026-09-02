@@ -9,7 +9,7 @@ terraform {
     resource_group_name  = "terraform-state-rg"
     storage_account_name = "tfstatedevruda0008"
     container_name       = "tfstate"
-    key                  = "terraform.tfstate"
+    key                  = "dev.terraform.tfstate"
   }
 }
 

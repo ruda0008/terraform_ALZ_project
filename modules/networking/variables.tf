@@ -11,6 +11,22 @@ variable "location" {
 
 variable "environment" {
   type        = string
-  description = "envirotnment variable"
+  description = "enviroment variable"
   default     = "dev"
 }
+
+variable "subnet" {
+  type = map(object({
+    cidr = string
+
+  }))
+  description = "map of subnets to create "
+
+}
+
+variable "address_space" {
+  type        = string
+  description = "CIDR for vnet"
+
+}
+

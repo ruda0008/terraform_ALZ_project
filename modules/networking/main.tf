@@ -12,7 +12,7 @@ resource "azurerm_virtual_network" "main" {
 }
 
 resource "azurerm_subnet" "main" {
-  for_each             = var.subnet
+  for_each             = var.subnet_id
   name                 = "snet-${var.environment}-${each.key}"
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name

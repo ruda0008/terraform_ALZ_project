@@ -15,7 +15,7 @@ variable "environment" {
   default     = "dev"
 }
 
-variable "subnet" {
+variable "subnet_id" {
   type = map(object({
     cidr = string
 

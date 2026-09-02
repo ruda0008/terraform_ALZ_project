@@ -1,3 +1,56 @@
-terraform.tfvars
-.terraform/*
-.terraform.lock.hcl
+# --- Terraform core ---
+# Local provider/plugins directory
+.terraform/
+**/.terraform/**
+
+# State files (never commit these)
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Variable files (often contain secrets)
+*.tfvars
+*.tfvars.json
+*.auto.tfvars
+
+# Plan output files (optional but recommended)
+*.tfplan
+*.tfplan.json
+tmp_plan/
+tmp/
+
+# Crash logs
+crash.log
+crash.*.log
+
+# CLI config / overrides
+.terraformrc
+terraform.rc
+*.tfoverride
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Environment / secrets
+.env
+.envrc
+credentials.json
+*.pem
+*.key
+*.pub
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Optional: lock file (depends on your workflow)
+# .terraform.lock.hcl
+environments/dev/.terraform.lock.hcl

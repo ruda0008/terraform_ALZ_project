@@ -40,24 +40,37 @@ module "networking" {
 }
 
 
-
+# Bastion Module
 module "bastion" {
   source              = "../../modules/bastion"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
   resource_name       = "hub"
-  subnet_ids          = module.networking.subnet_ids["AzureBastionSubnet"]
+  subnet_id           = module.networking.subnet_ids["AzureBastionSubnet"]
   environment         = "dev"
 
 }
-
+# Firewall module
 module "firewall" {
   source              = "../../modules/firewall"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
-  sku_tier            = "Basic"
+  sku_tier            = "Standard"
   environment         = "dev"
   resource_name       = "hub"
-  sku_name            = "AZFWL3"
+  sku_name            = "AZFW_VNet"
   subnet_id           = module.networking.subnet_ids["AzureFirewallSubnet"]
+}
+
+# VPN Gateway module
+
+module "vpn_gateway" {
+  source              = "../../modules/vpn_gateway"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  resource_name       = "hub"
+  environment         = "dev"
+  subnet_id           = module.networking.subnet_ids["GatewaySubnet"]
+  sku_name            = "VpnGw1"
+
 }

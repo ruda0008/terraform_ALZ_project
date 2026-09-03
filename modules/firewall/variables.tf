@@ -21,13 +21,13 @@ variable "resource_group_name" {
 
 variable "sku_name" {
   type    = string
-  default = "AZFWL3"
+  default = "AZFW_VNet"
 
 }
 
 variable "sku_tier" {
   type    = string
-  default = "Basic"
+  default = "Standard"
 }
 
 

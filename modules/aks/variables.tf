@@ -35,3 +35,9 @@ variable "workload_identity" {
   default     = {}
   description = "Map of application workload identities to creat and federate"
 }
+
+variable "virtual_machine_size" {
+  type        = string
+  description = "size of the node pool"
+  default     = "Standard_D2as_v7"
+}

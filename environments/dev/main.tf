@@ -42,12 +42,13 @@ module "networking" {
 # aks module
 
 module "aks" {
-  source              = "../../modules/aks"
-  resource_name       = "aks"
-  environment         = "dev"
-  location            = azurerm_resource_group.main.location
-  subnet_id           = module.networking.subnet_ids["snet-aks"]
-  resource_group_name = azurerm_resource_group.main.name
-  workload_identity   = var.workload_identity
+  source               = "../../modules/aks"
+  resource_name        = "aks"
+  environment          = "dev"
+  virtual_machine_size = var.virtual_machine_size
+  location             = azurerm_resource_group.main.location
+  subnet_id            = module.networking.subnet_ids["snet-aks"]
+  resource_group_name  = azurerm_resource_group.main.name
+  workload_identity    = var.workload_identity
 
 }

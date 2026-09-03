@@ -12,7 +12,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   default_node_pool {
     name                 = "system"
     node_count           = 1
-    vm_size              = "Standard_D2s_v3"
+    vm_size              = var.virtual_machine_size
     vnet_subnet_id       = var.subnet_id
     auto_scaling_enabled = true
     max_count            = 3

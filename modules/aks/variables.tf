@@ -9,6 +9,11 @@ variable "location" {
   default     = "West US 2"
 }
 
+
+variable "resource_group_name" {
+  type = string
+}
+
 variable "environment" {
   type        = string
   description = "enviroment variable"
@@ -19,4 +24,14 @@ variable "subnet_id" {
   type        = string
   description = "ID of the subnet in which the AKS cluster will be deployed"
 
+}
+
+variable "workload_identity" {
+
+  type = map(object({
+    namespace       = string
+    service_account = string
+  }))
+  default     = {}
+  description = "Map of application workload identities to creat and federate"
 }

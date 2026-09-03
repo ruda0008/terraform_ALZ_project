@@ -22,3 +22,32 @@ locals {
 
 }
 
+# resource group for DEV
+resource "azurerm_resource_group" "main" {
+  name     = "rg-aks-dev"
+  location = "West US 2"
+}
+
+# networking module
+module "networking" {
+  source              = "../../modules/networking"
+  resource_name       = "aks"
+  environment         = "dev"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  address_space       = var.address_space
+  subnet_id           = var.subnets
+}
+
+# aks module
+
+module "aks" {
+  source              = "../../modules/aks"
+  resource_name       = "aks"
+  environment         = "dev"
+  location            = azurerm_resource_group.main.location
+  subnet_id           = module.networking.subnet_ids["snet-aks"]
+  resource_group_name = azurerm_resource_group.main.name
+  workload_identity   = var.workload_identity
+
+}

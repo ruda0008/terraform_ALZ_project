@@ -6,10 +6,10 @@ terraform {
     }
   }
   backend "azurerm" {
-    resource_group_name  = "terraform-state-rg"
+    resource_group_name  = "terrafrom-state-rg"
     storage_account_name = "tfstatedevruda0008"
     container_name       = "tfstate"
-    key                  = "hubterraform.tfstate"
+    key                  = "hub.terraform.tfstate"
   }
 }
 
@@ -71,6 +71,6 @@ module "vpn_gateway" {
   resource_name       = "hub"
   environment         = "dev"
   subnet_id           = module.networking.subnet_ids["GatewaySubnet"]
-  sku_name            = "VpnGw1"
+  sku_name            = "VpnGw1AZ"
 
 }

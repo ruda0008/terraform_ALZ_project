@@ -52,3 +52,7 @@ module "aks" {
   workload_identity    = var.workload_identity
 
 }
+
+
+# VNet Peering
+

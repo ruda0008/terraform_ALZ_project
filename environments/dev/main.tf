@@ -51,8 +51,21 @@ module "aks" {
   resource_group_name  = azurerm_resource_group.main.name
   workload_identity    = var.workload_identity
 
+
 }
 
 
 # VNet Peering
 
+resource "azurerm_virtual_network_peering" "dev-to-hub" {
+  name                      = "peer-dev-to-hub"
+  resource_group_name       = azurerm_resource_group.main.name
+  virtual_network_name      = module.networking.virtual_network_name
+  remote_virtual_network_id = "/subscriptions/${var.subscription_id}/resourceGroups/rg-hub-dev/providers/Microsoft.Network/virtualNetworks/vnet-hub-dev"
+
+
+  allow_virtual_network_access = true
+  allow_forwarded_traffic      = true
+  use_remote_gateways          = true
+
+}

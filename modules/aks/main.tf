@@ -10,13 +10,14 @@ resource "azurerm_kubernetes_cluster" "main" {
   workload_identity_enabled = true
 
   default_node_pool {
-    name                 = "system"
-    node_count           = 1
-    vm_size              = var.virtual_machine_size
-    vnet_subnet_id       = var.subnet_id
-    auto_scaling_enabled = true
-    max_count            = 3
-    min_count            = 1
+    name                        = "system"
+    node_count                  = 1
+    vm_size                     = var.virtual_machine_size
+    vnet_subnet_id              = var.subnet_id
+    temporary_name_for_rotation = "tempnodepool"
+    auto_scaling_enabled        = true
+    max_count                   = 3
+    min_count                   = 1
   }
 
   identity {
@@ -55,3 +56,5 @@ resource "azurerm_federated_identity_credential" "main" {
   audience            = ["api://AzureADTokenExchange"]
 
 }
+
+

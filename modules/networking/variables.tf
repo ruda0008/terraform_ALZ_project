@@ -20,7 +20,9 @@ variable "environment" {
 
 variable "subnet_id" {
   type = map(object({
-    cidr = string
+    cidr       = string
+    delegation = optional(string)
+
 
   }))
   description = "map of subnets to create "

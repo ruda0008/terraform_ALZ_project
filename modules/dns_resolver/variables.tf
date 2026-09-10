@@ -1,4 +1,3 @@
-
 variable "resource_name" {
   type        = string
   description = "Name of the resource group"
@@ -19,13 +18,11 @@ variable "environment" {
 }
 
 
-variable "retention_days" {
-  type        = number
-  description = "number of days for log retention"
-  default     = 30
+variable "virtual_network_id" {
+  type        = string
+  description = "Virtual Network ID of the Hub"
 }
-
-variable "sku_name" {
-  type    = string
-  default = "PerGB2018"
+variable "subnet_id" {
+  type        = string
+  description = "Subnet ID of the delegated DNS inbound subnet"
 }

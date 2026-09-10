@@ -6,11 +6,13 @@ variable "subscription_id" {
 
 variable "subnets" {
   type = map(object({
-    cidr = string
+    cidr       = string
+    delegation = optional(string)
   }))
 }
 
 variable "address_space" {
+
   type        = string
   description = "CIDR for vnet"
 }
@@ -20,3 +22,7 @@ variable "environment" {
   description = "enviroment variable"
   default     = "dev"
 }
+variable "tenant_id" {
+  type = string
+}
+

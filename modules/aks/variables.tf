@@ -41,3 +41,4 @@ variable "virtual_machine_size" {
   description = "size of the node pool"
   default     = "Standard_D2as_v7"
 }
+

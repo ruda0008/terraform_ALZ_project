@@ -26,6 +26,10 @@ variable "sku_name" {
 
 }
 
+variable "tenant_id" {
+  type = string
+}
+
 
 
 variable "environment" {
@@ -33,5 +37,4 @@ variable "environment" {
   description = "enviroment variable"
   default     = "dev"
 }
-
 

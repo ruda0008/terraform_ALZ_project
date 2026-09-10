@@ -1,8 +1,4 @@
 
-variable "resource_name" {
-  type        = string
-  description = "Name of the resource group"
-}
 variable "location" {
   type        = string
   description = "Location of the resource group"
@@ -32,5 +28,5 @@ variable "purge_protection_enabled" {
 
 variable "enable_rbac_authorization" {
   type    = bool
-  default = false
+  default = true
 }

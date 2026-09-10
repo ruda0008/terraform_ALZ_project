@@ -7,7 +7,7 @@ resource "random_string" "suffix" {
 }
 
 resource "azurerm_key_vault" "main" {
-  name                       = "kv-${var.resource_name}-${var.environment}-${random_string.suffix.result}"
+  name                       = "kv-${var.environment}-${random_string.suffix.result}"
   location                   = var.location
   resource_group_name        = var.resource_group_name
   sku_name                   = var.sku_name

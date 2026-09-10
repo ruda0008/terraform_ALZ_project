@@ -11,3 +11,7 @@ output "workload_identity_client_id" {
   description = "Map of app name to its Azure Managed Identity Client ID"
 }
 
+output "workload_identity_principal_id" {
+  value       = { for k, id in azurerm_user_assigned_identity.main : k => id.principal_id }
+  description = "Map of app name to its Azure Managed Identity Principal ID"
+}

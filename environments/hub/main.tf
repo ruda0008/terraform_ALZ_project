@@ -128,3 +128,4 @@ module "log_analytics" {
   environment         = "dev"
   resource_name       = "hub"
 }
+

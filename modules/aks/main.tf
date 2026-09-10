@@ -41,7 +41,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 
 resource "azurerm_user_assigned_identity" "main" {
   for_each            = var.workload_identity
-  name                = "id-${each.key}-${var.environment}-${var.resource_name}"
+  name                = "id-${each.key}-${var.resource_name}-${var.environment}"
   resource_group_name = var.resource_group_name
   location            = var.location
 }
@@ -52,7 +52,7 @@ resource "azurerm_federated_identity_credential" "main" {
   resource_group_name = var.resource_group_name
   parent_id           = azurerm_user_assigned_identity.main[each.key].id
   issuer              = azurerm_kubernetes_cluster.main.oidc_issuer_url
-  subject             = "system:serviceaccount:${each.value.namespace}:${each.value.service_account}"
+  subject             = "system:serviceaccount:${each.value.namespace}:${each.key}-${azurerm_user_assigned_identity.main[each.key].client_id}"
   audience            = ["api://AzureADTokenExchange"]
 
 }

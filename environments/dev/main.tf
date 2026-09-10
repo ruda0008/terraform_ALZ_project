@@ -69,3 +69,19 @@ resource "azurerm_virtual_network_peering" "dev-to-hub" {
   use_remote_gateways          = true
 
 }
+
+module "keyvault" {
+  source                     = "../../modules/keyvault"
+  location                   = azurerm_resource_group.main.location
+  resource_group_name        = azurerm_resource_group.main.name
+  environment                = "dev"
+  enable_rbac_authorization  = true
+  soft_delete_retention_days = 30
+  purge_protection_enabled   = false
+}
+
+resource "azurerm_role_assignment" "app_kv_secrets_user" {
+  scope                = module.keyvault.id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id         = module.aks.workload_identity_principal_id["app"]
+}

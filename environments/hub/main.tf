@@ -19,6 +19,15 @@ provider "azurerm" {
 }
 data "azurerm_client_config" "current" {}
 
+data "azurerm_kubernetes_cluster" "aks" {
+  name                = "aks-dev-01"
+  resource_group_name = "rg-aks-dev"
+}
+data "azurerm_resources" "aks_dns_zone" {
+  resource_group_name = data.azurerm_kubernetes_cluster.aks.node_resource_group
+  type                = "Microsoft.Network/privateDnsZones"
+}
+
 locals {
 
 }

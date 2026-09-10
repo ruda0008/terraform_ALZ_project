@@ -22,11 +22,33 @@ locals {
 
 }
 
+
+# ----RESOURCES -------------------------------------------------------------------------------------------------------------------------------------------
+
 # resource group for DEV
 resource "azurerm_resource_group" "main" {
   name     = "rg-aks-dev"
   location = "West US 2"
 }
+
+# VNet Peering
+
+resource "azurerm_virtual_network_peering" "dev-to-hub" {
+  name                      = "peer-dev-to-hub"
+  resource_group_name       = azurerm_resource_group.main.name
+  virtual_network_name      = module.networking.virtual_network_name
+  remote_virtual_network_id = "/subscriptions/${var.subscription_id}/resourceGroups/rg-hub-dev/providers/Microsoft.Network/virtualNetworks/vnet-hub-dev"
+
+
+  allow_virtual_network_access = true
+  allow_forwarded_traffic      = true
+  use_remote_gateways          = true
+
+}
+
+
+
+# ----MODULES ------------------------------------------------------------------------------------------------------------------------------------------
 
 # networking module
 module "networking" {
@@ -54,22 +76,7 @@ module "aks" {
 
 }
 
-
-# VNet Peering
-
-resource "azurerm_virtual_network_peering" "dev-to-hub" {
-  name                      = "peer-dev-to-hub"
-  resource_group_name       = azurerm_resource_group.main.name
-  virtual_network_name      = module.networking.virtual_network_name
-  remote_virtual_network_id = "/subscriptions/${var.subscription_id}/resourceGroups/rg-hub-dev/providers/Microsoft.Network/virtualNetworks/vnet-hub-dev"
-
-
-  allow_virtual_network_access = true
-  allow_forwarded_traffic      = true
-  use_remote_gateways          = true
-
-}
-
+# Keyvault module
 module "keyvault" {
   source                     = "../../modules/keyvault"
   location                   = azurerm_resource_group.main.location
@@ -78,6 +85,24 @@ module "keyvault" {
   enable_rbac_authorization  = true
   soft_delete_retention_days = 30
   purge_protection_enabled   = false
+}
+
+# ACR module
+
+module "acr" {
+  source              = "../../modules/acr"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  environment         = "dev"
+}
+
+
+
+# ----ROLE ASSIGNMENT ----------------------------------------------------------------------------------------------------------------------------------
+resource "azurerm_role_assignment" "aks_acr_pull" {
+  scope                = module.acr.id
+  role_definition_name = "AcrPull"
+  principal_id         = module.aks.kubelet_identity_object_id
 }
 
 resource "azurerm_role_assignment" "app_kv_secrets_user" {
